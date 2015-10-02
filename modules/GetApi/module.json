@@ -1,0 +1,15 @@
+{
+    "name": "GetApi",
+    "alias": "getapi",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\GetApi\\Providers\\GetApiServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+        "start.php"
+    ]
+}
