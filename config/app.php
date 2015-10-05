@@ -147,7 +147,7 @@ return [
 
         Pingpong\Modules\ModulesServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
-
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
     ],
 
     /*
@@ -198,7 +198,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'Module'    => Pingpong\Modules\Facades\Module::class,
-
+        'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
 
 ];

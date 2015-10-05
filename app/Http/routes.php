@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'WelcomeController@index');
+
+Route::get('home', 'HomeController@index');
+Route::get('ldaptest', 'WelcomeController@ldaptest');
+Route::get('ldaplogin', 'WelcomeController@ldaplogin');
+Route::post('ldapauth', 'WelcomeController@ldapauth');
+Route::get('testauth', 'WelcomeController@testauth');
+
+Route::get('api', 'ApiController@index');
+
+Route::controllers([
+	'auth' => 'Auth\AuthController',
+	'password' => 'Auth\PasswordController',
+]);
