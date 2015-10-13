@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Trip extends Model {
+class City extends Model {
 
 	use SoftDeletes;
 
@@ -14,14 +14,14 @@ class Trip extends Model {
 	 *
 	 * @var string
 	 */
-	protected $table = 'trips';
+	protected $table = 'cities';
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['id', 'user_id', 'description', 'from_location_id', 'to_location_id'];
+	protected $fillable = ['city_id', 'country_id', 'region_id', 'name'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.

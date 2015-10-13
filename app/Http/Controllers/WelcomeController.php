@@ -38,9 +38,9 @@ class WelcomeController extends Controller {
 
 		// $mytime = Carbon\Carbon::now();
 		// echo $mytime->toDateTimeString();
-
+		setlocale(LC_TIME, config('app.locale'));
 		$x = 'Thu Aug 13 2015';
-		$y = '02:00:00 GMT+0700 (KRAT)';
+		$y = '02:00:00';
 		$departure = new Carbon($x.$y);
 		echo $departure;
 
