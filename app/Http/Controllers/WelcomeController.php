@@ -55,8 +55,8 @@ class WelcomeController extends Controller {
 	{
 		// echo phpinfo();
 		// return view('home');
-$username   = 'Administrator';
-$password   = 'Qwer1234';
+$username   = 'u_32104';
+$password   = 'G0ldSt@r';
 $server = '192.168.1.225';
 $domain = '@alfa.local';
 $port       = 389;

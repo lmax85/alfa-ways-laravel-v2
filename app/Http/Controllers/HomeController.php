@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers;
 
-class HomeController extends Controller {
+use Auth;
+use Illuminate\Routing\Controller as BaseController;
+
+class HomeController extends BaseController {
 
 	/*
 	|--------------------------------------------------------------------------
@@ -20,7 +23,7 @@ class HomeController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth');
+		// $this->middleware('auth');
 	}
 
 	/**
@@ -28,9 +31,21 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	/*public function index()
 	{
 		return view('home');
+	}*/
+	public function index()
+	{
+		if (Auth::attempt(array('username' => 'u_32104', 'password' => 'G0ldSt@r')))
+		{
+		    // return Redirect::intended('home');
+		    // return view('home');
+		    return 'logged in';
+		} else {
+			// return view('home');
+			return 'no logged ...';
+		}
 	}
 
 }

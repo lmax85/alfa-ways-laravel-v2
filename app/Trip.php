@@ -21,7 +21,7 @@ class Trip extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['id', 'user_id', 'description', 'from_location_id', 'to_location_id'];
+	protected $fillable = ['id', 'user_id', 'driver_id', 'description', 'from_location_id', 'to_location_id'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.

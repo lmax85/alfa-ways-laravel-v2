@@ -147,7 +147,9 @@ return [
 
         Pingpong\Modules\ModulesServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+
+        Dsdevbe\LdapConnector\LdapConnectorServiceProvider::class
     ],
 
     /*

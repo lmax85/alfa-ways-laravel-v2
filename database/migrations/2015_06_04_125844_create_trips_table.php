@@ -18,6 +18,7 @@ class CreateTripsTable extends Migration {
 			$table->increments('id');
 			$table->string('description');
 			$table->string('user_id');
+			$table->string('driver_id');
 			$table->integer('from_location_id');
 			$table->integer('to_location_id');
 			$table->SoftDeletes();

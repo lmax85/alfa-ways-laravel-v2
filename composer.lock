@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "854c1b9cd21ed8091bf36f6fa72bc420",
+    "hash": "f82e5e153f7b5d05e3ae32b5b3f5b6b3",
+    "content-hash": "b3ba11c179c273e396ea387833ca8fb0",
     "packages": [
+        {
+            "name": "adldap2/adldap2",
+            "version": "v4.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adLDAP2/adLDAP2.git",
+                "reference": "41f3bcae33add7145e2c7b2782eb9a872bb29da7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adLDAP2/adLDAP2/zipball/41f3bcae33add7145e2c7b2782eb9a872bb29da7",
+                "reference": "41f3bcae33add7145e2c7b2782eb9a872bb29da7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-ldap": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Scott Barnett",
+                    "email": "scott@wiggumworld.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Richard Hyland",
+                    "email": "adldap@richardhyland.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "adLDAP, PHP LDAP library for manipulating Active Directory",
+            "homepage": "http://adldap.sourceforge.net",
+            "keywords": [
+                "active directory",
+                "ldap",
+                "windows"
+            ],
+            "time": "2015-01-26 17:00:45"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "0.2.1",
@@ -826,6 +878,49 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
+        },
+        {
+            "name": "dsdevbe/ldap-connector",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SaschaDens/ldap-connector.git",
+                "reference": "15f8fb3f32196fcdbdd67b660083de69baef4837"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SaschaDens/ldap-connector/zipball/15f8fb3f32196fcdbdd67b660083de69baef4837",
+                "reference": "15f8fb3f32196fcdbdd67b660083de69baef4837",
+                "shasum": ""
+            },
+            "require": {
+                "adldap2/adldap2": "^4.0",
+                "laravel/framework": "~5.0",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Dsdevbe\\LdapConnector\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SaschaDens",
+                    "email": "dens.sascha@gmail.com"
+                }
+            ],
+            "description": "Easily authenticate with LDAP in Laravel",
+            "homepage": "https://github.com/SaschaDens/ldap-connector",
+            "keywords": [
+                "laravel",
+                "ldap"
+            ],
+            "time": "2015-08-02 17:44:44"
         },
         {
             "name": "erusev/parsedown",

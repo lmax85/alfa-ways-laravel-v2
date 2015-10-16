@@ -16,7 +16,7 @@ class ApiController extends Controller {
 		if ($id != '') {
 			$result = Trip::find($id);
 			if ($result->user_id > 0) {
-				$result['driver'] = User::find($result->user_id);
+				$result['driver'] = User::find($result->driver_id);
 				$result['from_location'] = DB::select("select city.city_id, city.name, region.name as `region`, country.name as `country` FROM city
 			                    join region on city.region_id=region.region_id
 			                    join country on city.country_id=country.country_id
@@ -33,7 +33,7 @@ class ApiController extends Controller {
 			$i = 0;
 			foreach ($trips as $trip) {
 				$result[$i]['trip'] = $trip;
-				$result[$i]['driver'] = User::find($trip->user_id);
+				$result[$i]['driver'] = User::find($trip->driver_id);
 				$result[$i]['from_location'] = DB::select("select city.city_id, city.name, region.name as `region`, country.name as `country` FROM city
 			                    join region on city.region_id=region.region_id
 			                    join country on city.country_id=country.country_id
@@ -61,8 +61,8 @@ class ApiController extends Controller {
 
 		$trip = new Trip;
 		$trip->description = $newtrip['description'];
-		$trip->user_id = 'asdfasdf';
 		$trip->user_id = $newtrip['user_id'];
+		$trip->driver_id = $newtrip['driver_id'];
 		// $trip->from_location_id = '123';
 		$trip->from_location_id = $newtrip['from'];
 		$trip->to_location_id = $newtrip['to'];
@@ -92,6 +92,7 @@ class ApiController extends Controller {
 		$trip = Trip::find($id);
 		$trip->description = $newtrip['description'];
 		$trip->user_id = $newtrip['user_id'];
+		$trip->driver_id = $newtrip['driver_id'];
 		$trip->from_location_id = $newtrip['from'];
 		$trip->to_location_id = $newtrip['to'];
 		$trip->departure = $departure;
@@ -212,7 +213,7 @@ class ApiController extends Controller {
 				// var_dump($locations);
 				foreach ($locations as $location) {
 					$result[] = [
-						'id' => $location->city_id,
+						'city_id' => $location->city_id,
 						'label' => $location->name,
 						'value' => 'mb_strtolower($location->city)',
 						'email' => '$location->regions',

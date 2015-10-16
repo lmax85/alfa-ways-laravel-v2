@@ -13,7 +13,8 @@
         "barryvdh/laravel-ide-helper": "~2.0",
         "barryvdh/laravel-cors": "0.7.x-dev",
         "wikimedia/composer-merge-plugin": "^1.2",
-        "tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "0.5.*",
+        "dsdevbe/ldap-connector": "3.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

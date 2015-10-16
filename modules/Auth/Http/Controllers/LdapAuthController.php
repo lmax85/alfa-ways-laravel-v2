@@ -9,9 +9,10 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 use Validator;
+use Auth;
+use Illuminate\Routing\Controller as BaseController;
 
-
-class AuthController extends Controller {
+class LdapAuthController extends BaseController {
 	
 	public function __construct()
 	{
@@ -29,108 +30,63 @@ class AuthController extends Controller {
 		return $users;
 	}
 
-	public function registration(Request $request)
-	{
-		$credentials = $request->only('email', 'name', 'password', 'password_confirmation', 'post', 'place');
-		$validateUser = Validator::make($credentials, [
-				'name' => 'required|max:255',
-				'email' => 'required|email|max:255|unique:users',
-				'post' => 'required|max:255',
-				'place' => 'required|max:255',
-				'password' => 'required|confirmed|min:6',
-			]);
-		if ($validateUser->fails()){
-			$errors = $validateUser->messages();
-			return response()->json(['errors' => $errors], 401);
-		}
-		try {
-			$user = User::create([
-				'name' => $credentials['name'],
-				'email' => $credentials['email'],
-				'post' => $credentials['post'],
-				'place' => $credentials['place'],
-				'password' => bcrypt($credentials['password']),
-			]);
-		} catch (Exception $e) {
-			return response()->json(['errors' => 'This email is busy']);
-		}
-		$token = JWTAuth::fromUser($user);
-		$result = ["token" => $token, "email" => $user->email, 'user_id' => $user->id];
-		// if no errors are encountered we can return a JWT
-		return response()->json($result);
-	}
-
 	public function authenticate(Request $request)
 	{
-		$credentials = $request->only('email', 'password');
+		$credentials = $request->only('username', 'password');
 
-		try {
-			// verify the credentials and create a token for the user
-			if (! $token = JWTAuth::attempt($credentials)) {
-				return response()->json(['errors' => ['error' => 'Wrong password or email']], 401);
-				// return response()->json(['errors' => 'Wrong password or email']);
-			}
-		} catch (JWTException $e) {
-			// something went wrong
-			// return response()->json(['errors' => 'could_not_create_token'], 500);
-			return response()->json(['errors' => 'could_not_create_token']);
+		$username   = $credentials['username'];
+		$password   = $credentials['password'];
+		$server = '192.168.1.225';
+		$domain = '@alfa.local';
+		$port       = 389;
+		$ldap_dn = "DC=alfa,DC=local";
+
+		$ldap_connection = ldap_connect($server, $port);
+
+		if (! $ldap_connection)
+		{
+			return response()->json(['errors' => ['error' => 'Can not connect to the ldap server!']], 401);
 		}
-		$user = JWTAuth::authenticate($token);
-		$result = ["token" => $token, "email" => $user->email, 'user_id' => $user->id];
-		// if no errors are encountered we can return a JWT
-		return response()->json($result);
-		// return response()->json(compact('token'));
+
+		// Help talking to AD
+		ldap_set_option($ldap_connection, LDAP_OPT_PROTOCOL_VERSION, 3);
+		ldap_set_option($ldap_connection, LDAP_OPT_REFERRALS, 0);
+
+		$ldap_bind = @ldap_bind($ldap_connection, $username.$domain, $password);
+
+		if (! $ldap_bind)
+		{
+			return response()->json(['errors' => ['error' => 'Wrong password or username']], 401);
+		}
+
+		// You can work now!!!
+		$filter = "(sAMAccountName=" . $username . ")";
+		// $attr = array("displayname", "title", "department");
+		$attr = array("*");
+		$result = ldap_search($ldap_connection, $ldap_dn, $filter, $attr) or exit("Unable to search LDAP server");
+		$entries = ldap_get_entries($ldap_connection, $result);
+		// $givenname = $entries[0]['displayname'];
+		// var_dump($entries);
+
+		// echo '<p>bin2hex ====='.bin2hex($entries[0]['objectsid'][0]).'</p>';
+		// print_r($entries);
+		// echo $entries[0]['displayname'][0].'<br />';
+		// echo $entries[0]['title'][0].'<br />';
+		// echo $entries[0]['department'][0].'<br />';
+		// echo $entries[0]['objectsid'][0].'<br />';
+
+		$result_auth = ["token" => 'xyz', "username" => $entries[0]['displayname'][0], 'user_id' => bin2hex($entries[0]['objectsid'][0])];
+		return response()->json($result_auth);
+		// return 'asdf';
+
+
+		/*if (Auth::attempt(array('username' => $credentials['username'], 'password' => $credentials['password'])))
+		{
+			$result = ["token" => 'xyz', "username" => Auth::user()->getGroups(), 'user_id' => '0105000000000005150000003caeba9f64a01d3104c991e253040000'];
+		} else {
+			return response()->json(['errors' => ['error' => 'Wrong password or username']], 401);
+		}
+		return response()->json($result);*/
 	}
-	
-	public function getAuthenticatedUser()
-	{
-		
-		try {
 
-			if (! $user = JWTAuth::parseToken()->authenticate()) {
-				return response()->json(['user_not_found'], 404);
-			}
-
-		} catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
-			return response()->json(['token_expired'], $e->getStatusCode());
-
-		} catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
-			return response()->json(['token_invalid'], $e->getStatusCode());
-
-		} catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-
-			return response()->json(['token_absent'], $e->getStatusCode());
-
-		}
-
-		// the token is valid and we have found the user via the sub claim
-		return json(compact('user'));
-	}	
-	public function getAuthenticatedUser_orig()
-	{
-		try {
-
-			if (! $user = JWTAuth::parseToken()->authenticate()) {
-				return response()->json(['user_not_found'], 404);
-			}
-
-		} catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
-			return response()->json(['token_expired'], $e->getStatusCode());
-
-		} catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
-			return response()->json(['token_invalid'], $e->getStatusCode());
-
-		} catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-
-			return response()->json(['token_absent'], $e->getStatusCode());
-
-		}
-
-		// the token is valid and we have found the user via the sub claim
-		return response()->json(compact('user'));
-	}
 }
