@@ -1,0 +1,15 @@
+{
+    "name": "InsertDB",
+    "alias": "insertdb",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\InsertDB\\Providers\\InsertDBServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+        "start.php"
+    ]
+}

@@ -169,9 +169,11 @@ class ApiController extends Controller {
 						'id' => $user->id,
 						'label' => $user->name,
 						'value' => mb_strtolower($user->name),
+						'phone' => $user->phone,
 						'email' => $user->email,
 						'post' => $user->post,
-						'place' => $user->place
+						'place' => $user->place,
+						'department' => $user->department
 					];
 					// echo '<br />value = '.mb_strtolower($user->name);
 			} else {
